@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Books</title>
+</head>
+<body>
+    <h1>🔍 Search Books</h1>
+
+    <form method="GET" action="/search">
+        <input type="text" name="q" placeholder="Search by title or author"
+               value="{{ search_term }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    {% if search_term %}
+        <p>Results for "{{ search_term }}":</p>
+        {% if books %}
+            {% for book in books %}
+                <p>
+                    📖 <strong>{{ book["title"] }}</strong> by {{ book["author"] }}
+                    —
+                    {% if book["status"] == "available" %}
+                        ✅ Available
+                    {% else %}
+                        ❌ Borrowed by {{ book["borrowed_by"] }}
+                    {% endif %}
+                </p>
+            {% endfor %}
+        {% else %}
+            <p>No books found.</p>
+        {% endif %}
+    {% endif %}
+
+    <br>
+    <a href="/books">Back to Books</a>
+</body>
+</html>
